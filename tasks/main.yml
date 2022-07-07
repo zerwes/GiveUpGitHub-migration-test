@@ -1,0 +1,14 @@
+---
+
+- name: install packages
+  apt:
+    name: netcat-openbsd
+    update_cache: true
+
+- name: copy test file
+  copy:
+    src: test.py
+    dest: /usr/local/bin/test.py
+    mode: 0755
+
+...
