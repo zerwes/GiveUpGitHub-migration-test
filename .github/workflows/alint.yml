@@ -1,0 +1,21 @@
+# vim: tabstop=2 expandtab shiftwidth=2 softtabstop=2 smartindent nu
+---
+name: ansible-lint
+on:
+  pull_request:
+  push:
+  schedule:
+    - cron: "20 6 * * 1"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: run ansible-lint
+        uses: ansible/ansible-lint-action@v4-eol
+        with:
+          override-deps: |
+            rich>=9.5.1,<11.0.0
+            ansible==5.3.0
+            ansible-lint==5.3.1
+          targets: "./"

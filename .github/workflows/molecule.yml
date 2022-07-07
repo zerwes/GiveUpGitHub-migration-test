@@ -1,0 +1,30 @@
+---
+name: molecule test
+on:
+  pull_request:
+  push:
+  schedule:
+    - cron: "10 6 * * 1"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          path: 'GiveUpGitHub-migration-test'
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install test dependencies.
+        run: pip3 install ansible "molecule[docker,lint]" yamllint ansible-lint requests dnspython
+
+      - name: run molecule tests
+        run: molecule test
+        working-directory: GiveUpGitHub-migration-test
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
